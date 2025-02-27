@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Pitches - CapConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f7f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Color palette */
+        :root {
+            --primary-light: #E1D8CC;
+            --primary-dark: #825C42;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --accent-light: #f0e9e0;
+            --accent-dark: #634732;
+            --border-color: #d6cfc5;
+        }
+        /* Header styles */
+        .header {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        .pitch-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(130, 92, 66, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #825C42;
+        }
+
+        .submit-btn {
+            background-color: #825C42;
+            color: #E1D8CC;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #704a35;
+        }
+        .funding-progress {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #825C42;
+            transition: width 0.5s ease-in-out;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">CapConnect</div>
+            <nav class="nav-links">
+                <span id="userGreeting">Hi, </span>
+                <a href="startup-dashboard.html">Home</a>
+                <a href="explore-investors.html">Explore</a>
+                <a href="mypitches.html">Pitch</a>
+                <a href="profile-startup.html">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="pitch-form">
+            <h1>Create Your Pitch</h1>
+            <form id="pitchForm">
+                <div class="form-group">
+                    <label for="startupName">Startup Name</label>
+                    <input type="text" id="startupName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="domain">Domain</label>
+                    <select id="domain" class="form-control" required>
+                        <option value="">Select a domain</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Education">Education</option>
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="industry">Industry</label>
+                    <input type="text" id="industry" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="problemStatement">Problem Statement</label>
+                    <textarea id="problemStatement" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="solution">Your Solution</label>
+                    <textarea id="solution" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="targetMarket">Target Market</label>
+                    <input type="text" id="targetMarket" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="businessModel">Business Model</label>
+                    <textarea id="businessModel" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="fundingNeeded">Funding Needed</label>
+                    <input type="number" id="fundingNeeded" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="fundingRaised">Funding Already Raised</label>
+                    <input type="number" id="fundingRaised" class="form-control" required>
+                </div>
+                <button type="submit" class="submit-btn">Submit Pitch</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Footer content -->
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase (use your Firebase config)
+            const firebaseConfig = {
+                apiKey: "AIzaSyDAWw-ULo8667yfh73CT7um7klrmHz28Ak",
+                authDomain: "capconnect-377b7.firebaseapp.com",
+                projectId: "capconnect-377b7",
+                storageBucket: "capconnect-377b7.appspot.com",
+                messagingSenderId: "118573492915",
+                appId: "1:118573492915:web:3096948dde5d4827e7dec6",
+                measurementId: "G-S09TJS03MH"
+            };
+            firebase.initializeApp(firebaseConfig);
+
+            const db = firebase.firestore();
+            let currentUser = null;
+
+            const domainOptions = [
+                "Technology",
+                "Healthcare",
+                "Finance",
+                "Education",
+                "Entertainment",
+                "E-commerce",
+                "Social Media",
+                "Travel",
+                "Food & Beverage",
+                "Real Estate"
+            ];
+
+            // Check if the user is logged in and fetch their pitch
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    fetchUserPitches(user.uid);
+                } else {
+                    currentUser = null;
+                    document.getElementById('pitchFormContainer').style.display = "block";
+                    document.getElementById('pitchDetailsContainer').style.display = "none";
+                }
+            });
+
+            // Populate domain dropdown
+            function populateDomainDropdown() {
+                const domainSelect = document.getElementById('domain');
+                domainOptions.forEach(domain => {
+                    const option = document.createElement('option');
+                    option.value = domain;
+                    option.textContent = domain;
+                    domainSelect.appendChild(option);
+                });
+            }
+
+            // Fetch existing pitch for the user
+            function fetchUserPitches(userId) {
+                db.collection('pitches')
+                    .where('userId', '==', userId)
+                    .get()
+                    .then((querySnapshot) => {
+                        if (!querySnapshot.empty) {
+                            displayPitches(querySnapshot);
+                            document.getElementById('pitchFormContainer').style.display = "block";
+                            document.getElementById('pitchesContainer').style.display = "block";
+                        } else {
+                            document.getElementById('pitchFormContainer').style.display = "block";
+                            document.getElementById('pitchesContainer').style.display = "none";
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching pitches:", error);
+                    });
+            }
+
+
+            // Display user pitch details
+            function displayPitches(querySnapshot) {
+                const pitchesContainer = document.getElementById('pitchesContainer');
+                pitchesContainer.innerHTML = '<h2>My Pitches</h2>';
+
+                querySnapshot.forEach((doc) => {
+                    const pitch = doc.data();
+                    const pitchElement = document.createElement('div');
+                    pitchElement.className = 'pitch';
+                    const fundingProgress = (pitch.fundingRaised / pitch.fundingNeeded) * 100;
+
+                    pitchElement.innerHTML = `
+                        <h3>${pitch.startupName}</h3>
+                        <p><strong>Domain:</strong> ${pitch.domain}</p>
+                        <p><strong>Industry:</strong> ${pitch.industry}</p>
+                        <p><strong>Funding Progress:</strong> $${pitch.fundingRaised} / $${pitch.fundingNeeded}</p>
+                        <div class="funding-progress">
+                            <div class="progress-bar" style="width: ${fundingProgress}%"></div>
+                        </div>
+                        <p><strong>Likes:</strong> ${pitch.likes}</p>
+                        <button onclick="viewPitchDetails('${doc.id}')">View Details</button>
+                    `;
+
+                    pitchesContainer.appendChild(pitchElement);
+                });
+            }
+
+            function viewPitchDetails(pitchId) {
+                db.collection('pitches').doc(pitchId).get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            const pitch = doc.data();
+                            console.log("Pitch details:", pitch);
+                        } else {
+                            console.log("No such document!");
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    });
+            }
+
+            // Handle pitch submission (Create/Update)
+           // Handle pitch submission (Create/Update)
+document.getElementById('pitchForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    if (!currentUser) {
+        alert('You must be logged in to submit a pitch.');
+        return;
+    }
+
+    try {
+        const selectedDomain = document.getElementById('domain').value;
+        let domainImageUrl = '';
+
+        // Assign specific URLs based on the selected domain
+        if (selectedDomain === 'Technology') {
+            domainImageUrl = "photos/tech.jpg";
+        } else if (selectedDomain === 'Healthcare') {
+            domainImageUrl = 'photos/healt.png';
+        } else if (selectedDomain === 'Social Media') {
+            domainImageUrl = 'photos/social.png';
+        } else if (selectedDomain === 'Finance') {
+            domainImageUrl = 'photos/finance.jpg';
+        } else if (selectedDomain === 'Education') {
+            domainImageUrl = 'photos/edu.jpg';
+        } else if (selectedDomain === 'E-commerce') {
+            domainImageUrl = 'photos/ecommerce.jpg';
+        } else if (selectedDomain === 'Food & Beverage') {
+            domainImageUrl = 'photos/beverage.jpg';
+        }else if (selectedDomain === 'Entertainment') {
+            domainImageUrl = 'photos/entertain.jpg';
+        }else if (selectedDomain === 'Travel') {
+            domainImageUrl = 'photos/travel.jpg';
+        }    
+        else {
+            domainImageUrl = 'https://example.com/images/default.jpg';
+        }
+
+        const pitch = {
+            startupName: document.getElementById('startupName').value,
+            domain: selectedDomain,
+            industry: document.getElementById('industry').value,
+            problemStatement: document.getElementById('problemStatement').value,
+            solution: document.getElementById('solution').value,
+            targetMarket: document.getElementById('targetMarket').value,
+            businessModel: document.getElementById('businessModel').value,
+            fundingNeeded: parseFloat(document.getElementById('fundingNeeded').value),
+            fundingRaised: parseFloat(document.getElementById('fundingRaised').value),
+            userId: currentUser.uid,
+            userName: currentUser.name || 'Anonymous', // Add user's display name
+            likes: 0,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            imageUrl: domainImageUrl
+        };
+
+        await db.collection('pitches').add(pitch);
+        alert('Pitch submitted successfully!');
+        fetchUserPitches(currentUser.uid);
+        document.getElementById('pitchForm').reset();
+    } catch (error) {
+        console.error("Error submitting pitch: ", error);
+        alert('An error occurred while submitting your pitch. Please try again.');
+    }
+});
+
+            // Call this function when the page loads
+            populateDomainDropdown();
+
+    </script>
+    
+</body>
+</html>

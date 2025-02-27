@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet The Team</title>
+    <!-- <link rel="stylesheet" href="abstyles.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #E1D8CC;
+            text-align: center;
+        }
+        /* Header styles - single line */
+        /* Header */
+        .header {
+            background-color: #825C42;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 40px;
+            fill: #E1D8CC;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #E1D8CC;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-right: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #E1D8CC;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #E1D8CC;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Authentication Buttons */
+        .auth-buttons {
+            display: flex;
+        }
+
+        .auth-button {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .login-btn {
+            color: #825C42;
+            background-color: #E1D8CC;
+        }
+
+        .login-btn:hover {
+            background-color: #d5cbc0;
+            transform: translateY(-2px);
+        }
+
+        .signup-btn {
+            color: #E1D8CC;
+            border: 2px solid #E1D8CC;
+            background-color: transparent;
+        }
+
+        .signup-btn:hover {
+            background-color: rgba(225, 216, 204, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Layout */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        .column {
+            width: 45%;
+            margin: 0 10px;
+        }
+
+        /* Card Styling */
+        /* Card Styling */
+.card {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #825C42, #65432D);
+}
+
+/* Subtle Border Glow */
+.card::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: linear-gradient(45deg, #825C42, #65432D, #4a90e2);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.card:hover::after {
+    opacity: 1;
+}
+
+/* Icon Container */
+.icon-container {
+    padding: 30px;
+    background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.card:hover .icon-container {
+    background: transparent;
+}
+
+.icon-container svg {
+    width: 60px;
+    height: 60px;
+    transition: all 0.3s ease;
+}
+
+.card:hover .icon-container svg {
+    fill: #ffffff;
+    transform: scale(1.1);
+}
+
+/* Content Container */
+.container {
+    padding: 25px;
+    text-align: center;
+}
+
+/* Title */
+.title {
+    color: #333;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+.card:hover .title {
+    color: #ffffff;
+}
+
+/* Description */
+.description {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.card:hover .description {
+    color: #ffffff;
+}
+
+/* Button Styling */
+.button {
+    border: none;
+    outline: none;
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #825C42, #65432D);
+    text-align: center;
+    cursor: pointer;
+    width: auto;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Button Hover Effect */
+.card:hover .button {
+    background: #ffffff;
+    color: #825C42;
+}
+
+/* Button Focus Effect */
+.button:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+/* Button Active Effect */
+.button:active {
+    transform: translateY(2px);
+}
+
+        /* Contact Section */
+        .contact-section {
+            background-color: #825C42;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* Contact Detail Items */
+        .detail {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .detail i {
+            font-size: 22px;
+            margin-right: 10px;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .column {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .contact-details {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .detail {
+                margin-bottom: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-links li {
+                margin-bottom: 10px;
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .auth-button {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 150 100" width="40" height="30">
+                <circle cx="75" cy="50" r="40" fill="#E1D8CC" stroke="#825C42" stroke-width="3"/>
+                <text x="63" y="62" font-family="Arial, sans-serif" font-weight="bold" font-size="42" fill="#825C42">₹</text>
+                <circle cx="110" cy="30" r="12" fill="#825C42" opacity="0.8" stroke="#825C42" stroke-width="2"/>
+                <circle cx="40" cy="70" r="12" fill="#825C42" opacity="0.8" stroke="#825C42" stroke-width="2"/>
+                <text x="106" y="34" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#E1D8CC">¢</text>
+                <text x="36" y="74" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#E1D8CC">¢</text>
+            </svg>
+            
+            <span class="logo-text">CapConnect</span>
+        </div>
+        
+        <nav class="nav">
+            <ul class="nav-links">
+                <li><a href="get-started.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="topstartups.html">Startups</a></li>
+                <li><a href="topinvestors.html">Investors</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-button login-btn">Login</a>
+                <a href="signup.html" class="auth-button signup-btn">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+    
+<div class="row">
+    <div class="column">
+        <div class="card">
+            <div class="icon-container">
+                <i class="fas fa-user-circle" style="font-size: 100px; color: #825C42;"></i>
+            </div>
+            <div class="container">
+                <h2>Anand Verma</h2>
+                <p class="title">Student</p>
+                <p>Institute Roll No: 124111016</p>
+                <p>College: NIT Kurukshestra</p>
+                <p>Gender: Male</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <div class="icon-container">
+                <i class="fas fa-user-circle" style="font-size: 100px; color: #825C42;"></i>
+            </div>
+            <div class="container">
+                <h2>Madhavi Chipade</h2>
+                <p class="title">Student</p>
+                <p>Institute Roll No: 124108001</p>
+                <p>College: NIT Kurukshestra</p>
+                <p>Gender: Female</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="column">
+        <div class="card">
+            <div class="icon-container">
+                <i class="fas fa-user-circle" style="font-size: 100px; color: #825C42;"></i>
+            </div>
+            <div class="container">
+                <h2>Vedhashreyan Brahmadevara</h2>
+                <p class="title">Student</p>
+                <p>Institute Roll No: 124111030</p>
+                <p>College: NIT Kurukshestra</p>
+                <p>Gender: Male</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <div class="icon-container">
+                <i class="fas fa-user-circle" style="font-size: 100px; color: #825C42;"></i>
+            </div>
+            <div class="container">
+                <h2>Mudit Mishra</h2>
+                <p class="title">Student</p>
+                <p>Institute Roll No: 124108032</p>
+                <p>College: NIT Kurukshestra</p>
+                <p>Gender: Male</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="contact-section">
+    <h2>Contact Us</h2>
+    <div class="contact-details">
+        <div class="detail">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <span>info@example.com</span>
+        </div>
+        <div class="detail">
+            <i class="fa fa-phone" aria-hidden="true"></i>
+            <span>1800-123-4567</span>
+        </div>
+        <div class="detail">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+            <span>@examplecompany</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

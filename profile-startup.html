@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Profile - CapConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f7f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        :root {
+            --primary-light: #E1D8CC;
+            --primary-dark: #825C42;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --accent-light: #f0e9e0;
+            --accent-dark: #634732;
+            --border-color: #d6cfc5;
+        }
+
+        .header {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(130, 92, 66, 0.2);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            
+            background-image: url("photos/profile.png");
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+        .profile-name {
+            font-size: 2rem;
+            color: var(--primary-dark);
+        }
+
+        .pitches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pitch-card {
+            background-color: var(--accent-light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .pitch-title {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .pitch-details {
+            margin-bottom: 1rem;
+        }
+
+        .funding-progress {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: var(--primary-dark);
+            transition: width 0.5s ease-in-out;
+        }
+
+        .pitch-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-dark);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">CapConnect</div>
+            <nav class="nav-links">
+                <a href="startup-dashboard.html">Home</a>
+                <a href="explore-investors.html">Explore</a>
+                <a href="mypitches.html">Pitch</a>
+                <a href="profile-startup.html">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-picture"></div>
+            <h1 class="profile-name" id="userName">Startup Name</h1>
+        </div>
+
+        <div class="pitches-grid" id="pitchesGrid">
+            <!-- Pitch cards will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase (use your Firebase config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDAWw-ULo8667yfh73CT7um7klrmHz28Ak",
+            authDomain: "capconnect-377b7.firebaseapp.com",
+            projectId: "capconnect-377b7",
+            storageBucket: "capconnect-377b7.appspot.com",
+            messagingSenderId: "118573492915",
+            appId: "1:118573492915:web:3096948dde5d4827e7dec6",
+            measurementId: "G-S09TJS03MH"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firebase (make sure this is done before using Firebase services)
+        const db = firebase.firestore();
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                db.collection('users').doc(user.uid).get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            document.getElementById('userName').textContent = `Hi, ${userData.name}`;
+                            // Call fetchUserPitches with the user's ID
+                            fetchUserPitches(user.uid);
+                        } else {
+                            console.log("No such document!");
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    });
+            } else {
+                window.location.href = 'login.html'; // Redirect to login if not authenticated
+            }
+        });
+
+        function fetchUserPitches(userId) {
+            db.collection('pitches')
+                .where('userId', '==', userId)
+                .get()
+                .then((querySnapshot) => {
+                    const pitchesGrid = document.getElementById('pitchesGrid');
+                    pitchesGrid.innerHTML = ''; // Clear existing content
+
+                    if (querySnapshot.empty) {
+                        pitchesGrid.innerHTML = '<p>No pitches found.</p>';
+                        return;
+                    }
+
+                    querySnapshot.forEach((doc) => {
+                        const pitch = doc.data();
+                        const pitchCard = createPitchCard(pitch);
+                        pitchesGrid.appendChild(pitchCard);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error fetching pitches:", error);
+                });
+        }
+
+        function createPitchCard(pitch) {
+            const card = document.createElement('div');
+            card.className = 'pitch-card';
+
+            const fundingProgress = (pitch.fundingRaised / pitch.fundingNeeded) * 100;
+
+            card.innerHTML = `
+                <h3 class="pitch-title">${pitch.startupName}</h3>
+                <div class="pitch-details">
+                    <p><strong>Domain:</strong> ${pitch.domain}</p>
+                    <p><strong>Industry:</strong> ${pitch.industry}</p>
+                </div>
+                <div class="funding-progress">
+                    <div class="progress-bar" style="width: ${fundingProgress}%"></div>
+                </div>
+                <div class="pitch-stats">
+                    <span>$${pitch.fundingRaised.toLocaleString()} / $${pitch.fundingNeeded.toLocaleString()}</span>
+                    <span>❤️ ${pitch.likes}</span>
+                </div>
+            `;
+
+            return card;
+        }
+
+    </script>
+</body>
+</html>

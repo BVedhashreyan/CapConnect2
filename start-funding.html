@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Funding - CapConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f7f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Color palette */
+        :root {
+            --primary-light: #E1D8CC;
+            --primary-dark: #825C42;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --accent-light: #f0e9e0;
+            --accent-dark: #634732;
+            --border-color: #d6cfc5;
+        }
+        /* Header styles */
+        .header {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        .funding-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(130, 92, 66, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #825C42;
+        }
+
+        .submit-btn {
+            background-color: #825C42;
+            color: #E1D8CC;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #704a35;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">CapConnect</div>
+            <nav class="nav-links">
+                <span id="userGreeting">Hi, </span>
+                <a href="investor-dashboard.html">Home</a>
+                <a href="explore-startup.html">Explore</a>
+                <a href="start-funding.html">Start Funding</a>
+                <a href="profile-investor.html">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="funding-form">
+            <h1>Set Up Your Investor Profile</h1>
+            <form id="investorProfileForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="investmentCapacity">Investment Capacity ($)</label>
+                    <input type="number" id="investmentCapacity" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="investmentPreferences">Investment Preferences</label>
+                    <select id="investmentPreferences" class="form-control" multiple required>
+                        <option value="Technology">Technology</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Education">Education</option>
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="investmentExperience">Investment Experience (Years)</label>
+                    <input type="number" id="investmentExperience" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="linkedinProfile">LinkedIn Profile URL</label>
+                    <input type="url" id="linkedinProfile" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="bio">Short Bio</label>
+                    <textarea id="bio" class="form-control" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Save Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Footer content -->
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase (use your Firebase config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDAWw-ULo8667yfh73CT7um7klrmHz28Ak",
+            authDomain: "capconnect-377b7.firebaseapp.com",
+            projectId: "capconnect-377b7",
+            storageBucket: "capconnect-377b7.appspot.com", 
+            messagingSenderId: "118573492915",
+            appId: "1:118573492915:web:3096948dde5d4827e7dec6",
+            measurementId: "G-S09TJS03MH"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        const db = firebase.firestore();
+        let currentUser = null;
+
+        // Check if the user is logged in and fetch their profile
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                fetchInvestorProfile(user.uid);
+            } else {
+                currentUser = null;
+                alert('You must be logged in to set up your investor profile.');
+            }
+        });
+
+        // Fetch existing investor profile
+        function fetchInvestorProfile(userId) {
+            db.collection('investors')
+                .doc(userId)
+                .get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        // Investor profile exists, populate the form
+                        const profile = doc.data();
+                        document.getElementById('fullName').value = profile.fullName;
+                        document.getElementById('investmentCapacity').value = profile.investmentCapacity;
+                        document.getElementById('investmentExperience').value = profile.investmentExperience;
+                        document.getElementById('linkedinProfile').value = profile.linkedinProfile;
+                        document.getElementById('bio').value = profile.bio;
+                        // Set selected options for investment preferences
+                        const preferencesSelect = document.getElementById('investmentPreferences');
+                        for (let i = 0; i < preferencesSelect.options.length; i++) {
+                            preferencesSelect.options[i].selected = profile.investmentPreferences.includes(preferencesSelect.options[i].value);
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching investor profile:", error);
+                });
+        }
+
+        // Handle investor profile submission
+        document.getElementById('investorProfileForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!currentUser) {
+                alert('You must be logged in to submit your investor profile.');
+                return;
+            }
+
+            const profile = {
+                fullName: document.getElementById('fullName').value,
+                investmentCapacity: parseFloat(document.getElementById('investmentCapacity').value),
+                investmentPreferences: Array.from(document.getElementById('investmentPreferences').selectedOptions).map(option => option.value),
+                investmentExperience: parseInt(document.getElementById('investmentExperience').value),
+                linkedinProfile: document.getElementById('linkedinProfile').value,
+                bio: document.getElementById('bio').value,
+                userId: currentUser.uid,
+                followers:0,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            db.collection('investors')
+                .doc(currentUser.uid)
+                .set(profile)
+                .then(() => {
+                    alert('Investor profile saved successfully!');
+                })
+                .catch((error) => {
+                    console.error("Error saving investor profile: ", error);
+                    alert('An error occurred while saving your profile. Please try again.');
+                });
+        });
+    </script>
+</body>
+</html>

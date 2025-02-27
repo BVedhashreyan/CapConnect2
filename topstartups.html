@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapConnect - Top Startups</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f7f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Color palette */
+        :root {
+            --primary-light: #E1D8CC;
+            --primary-dark: #825C42;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --accent-light: #f0e9e0;
+            --accent-dark: #634732;
+            --border-color: #d6cfc5;
+        }
+        
+        /* Header styles - single line */
+        .header {
+            background-color: #825C42;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 40px;
+            fill: #E1D8CC;
+            margin-right: 10px;
+        }
+
+        
+        .logo-text {
+            color: #E1D8CC;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-right: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: #E1D8CC;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #E1D8CC;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .auth-buttons {
+            display: flex;
+        }
+        
+        .auth-button {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+        
+        .login-btn {
+            color: #825C42;
+            background-color: #E1D8CC;
+        }
+        
+        .login-btn:hover {
+            background-color: #d5cbc0;
+            transform: translateY(-2px);
+        }
+        
+        .signup-btn {
+            color: #E1D8CC;
+            border: 2px solid #E1D8CC;
+            background-color: transparent;
+        }
+        
+        .signup-btn:hover {
+            background-color: rgba(225, 216, 204, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+            text-align: center;
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+        
+        /* Startup card grid - 2x3 arrangement */
+        .startup-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-items: center;
+        }
+        
+        .startup-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .startup-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .startup-logo {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent-light);
+        }
+        
+        .startup-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .startup-content {
+            padding: 1.2rem;
+        }
+        
+        .startup-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--primary-dark);
+        }
+        
+        .startup-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--primary-dark);
+        }
+        
+        .info-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .startup-description {
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .see-more {
+            text-align: right;
+            margin-top: 1rem;
+        }
+        
+        .see-more-btn {
+            background-color: transparent;
+            color: var(--primary-dark);
+            border: 1px solid var(--primary-dark);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .see-more-btn:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+        
+        /* Center card in the last row */
+        .center-card {
+            grid-column: 1 / span 2;
+            justify-self: center;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 900px) {
+            .startup-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .center-card {
+                grid-column: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation - Single Line -->
+    <header class="header">
+        <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 150 100" width="40" height="30">
+                <circle cx="75" cy="50" r="40" fill="#E1D8CC" stroke="#825C42" stroke-width="3"/>
+                <text x="63" y="62" font-family="Arial, sans-serif" font-weight="bold" font-size="42" fill="#825C42">₹</text>
+                <circle cx="110" cy="30" r="12" fill="#825C42" opacity="0.8" stroke="#825C42" stroke-width="2"/>
+                <circle cx="40" cy="70" r="12" fill="#825C42" opacity="0.8" stroke="#825C42" stroke-width="2"/>
+                <text x="106" y="34" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#E1D8CC">¢</text>
+                <text x="36" y="74" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#E1D8CC">¢</text>
+            </svg>
+            
+            <span class="logo-text">CapConnect</span>
+        </div>
+        
+        <nav class="nav">
+            <ul class="nav-links">
+                <li><a href="get-started.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="topstartups.html">Startups</a></li>
+                <li><a href="topinvestors.html">Investors</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-button login-btn">Login</a>
+                <a href="signup.html" class="auth-button signup-btn">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <h1 class="page-title">Top Startups</h1>
+        <p class="page-subtitle">Discover the most promising emerging companies from our platform that are reshaping industries</p>
+        
+        <div class="startup-grid">
+            <!-- Startup Card 1 -->
+            <div class="startup-card">
+                <div class="startup-logo">
+                    <img src="photos/tech.jpg" alt="EcoTech Solutions">
+                </div>
+                <div class="startup-content">
+                    <h2 class="startup-name">EcoTech Solutions</h2>
+                    <div class="startup-info">
+                        <div class="info-item">
+                            <div class="info-value">2019</div>
+                            <div class="info-label">Founded</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">Maya Rodriguez</div>
+                            <div class="info-label">Founder</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">San Francisco, CA</div>
+                            <div class="info-label">Location</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">$28M</div>
+                            <div class="info-label">Valuation</div>
+                        </div>
+                    </div>
+                    <p class="startup-description">
+                        Developing sustainable technology solutions for waste management and energy conservation in urban environments. Their flagship product reduces commercial building energy usage by 42%.
+                    </p>
+                    <div class="see-more">
+                        <button class="see-more-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Startup Card 2 -->
+            <div class="startup-card">
+                <div class="startup-logo">
+                    <img src="photos/edu.jpg" alt="NeuraTech">
+                </div>
+                <div class="startup-content">
+                    <h2 class="startup-name">NeuraTech</h2>
+                    <div class="startup-info">
+                        <div class="info-item">
+                            <div class="info-value">2020</div>
+                            <div class="info-label">Founded</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">Daniel Kim</div>
+                            <div class="info-label">Founder</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">Boston, MA</div>
+                            <div class="info-label">Location</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">$42M</div>
+                            <div class="info-label">Valuation</div>
+                        </div>
+                    </div>
+                    <p class="startup-description">
+                        Revolutionary AI-powered diagnostic tools for neurological conditions. Their platform can detect early signs of cognitive disorders with 94% accuracy using non-invasive techniques.
+                    </p>
+                    <div class="see-more">
+                        <button class="see-more-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Startup Card 3 -->
+            <div class="startup-card">
+                <div class="startup-logo">
+                    <img src="photos/social.png" alt="Orbital Dynamics">
+                </div>
+                <div class="startup-content">
+                    <h2 class="startup-name">Orbital Dynamics</h2>
+                    <div class="startup-info">
+                        <div class="info-item">
+                            <div class="info-value">2018</div>
+                            <div class="info-label">Founded</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">James Wilson</div>
+                            <div class="info-label">Founder</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">Houston, TX</div>
+                            <div class="info-label">Location</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">$65M</div>
+                            <div class="info-label">Valuation</div>
+                        </div>
+                    </div>
+                    <p class="startup-description">
+                        Creating cost-effective satellite deployment systems for commercial applications. Their proprietary launch mechanism reduces deployment costs by 60% compared to traditional methods.
+                    </p>
+                    <div class="see-more">
+                        <button class="see-more-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Startup Card 4 -->
+            <div class="startup-card">
+                <div class="startup-logo">
+                    <img src="photos/finance.jpg" alt="FinLeap">
+                </div>
+                <div class="startup-content">
+                    <h2 class="startup-name">FinLeap</h2>
+                    <div class="startup-info">
+                        <div class="info-item">
+                            <div class="info-value">2021</div>
+                            <div class="info-label">Founded</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">Sophia Zhang</div>
+                            <div class="info-label">Founder</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">New York, NY</div>
+                            <div class="info-label">Location</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">$31M</div>
+                            <div class="info-label">Valuation</div>
+                        </div>
+                    </div>
+                    <p class="startup-description">
+                        Democratizing financial planning through AI-driven personalized advice. Their platform makes wealth management strategies accessible to underserved communities through innovative technology.
+                    </p>
+                    <div class="see-more">
+                        <button class="see-more-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Startup Card 5 (Center Card) -->
+            <div class="startup-card center-card">
+                <div class="startup-logo">
+                    <img src="photos/realestate.jpg" alt="Quantum Harvest">
+                </div>
+                <div class="startup-content">
+                    <h2 class="startup-name">Quantum Harvest</h2>
+                    <div class="startup-info">
+                        <div class="info-item">
+                            <div class="info-value">2018</div>
+                            <div class="info-label">Founded</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">Elena Petrov</div>
+                            <div class="info-label">Founder</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">Austin, TX</div>
+                            <div class="info-label">Location</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-value">$87M</div>
+                            <div class="info-label">Valuation</div>
+                        </div>
+                    </div>
+                    <p class="startup-description">
+                        Pioneering quantum computing applications for agricultural optimization. Their technology helps farmers increase crop yields by 30% while reducing water usage and environmental impact through precise resource management.
+                    </p>
+                    <div class="see-more">
+                        <button class="see-more-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

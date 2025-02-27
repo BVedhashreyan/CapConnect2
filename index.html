@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapConnect - Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #E1D8CC;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .logo {
+            margin-bottom: 2rem;
+            animation: fadeInDown 1.2s ease-out;
+        }
+        
+        .app-name {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #825C42;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #825C42;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .btn-primary {
+            background-color: #825C42;
+            color: #E1D8CC;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 8px rgba(130, 92, 66, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background-color: #6B4A35;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(130, 92, 66, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: #825C42;
+            border: 2px solid #825C42;
+            animation: fadeInUp 1.2s ease-out;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(130, 92, 66, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #825C42;
+            opacity: 0.1;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .circle-1 {
+            width: 100px;
+            height: 100px;
+            top: -50px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .circle-2 {
+            width: 150px;
+            height: 150px;
+            bottom: -70px;
+            right: 10%;
+            animation-delay: 1s;
+        }
+        
+        .circle-3 {
+            width: 80px;
+            height: 80px;
+            top: 30%;
+            left: -40px;
+            animation-delay: 2s;
+        }
+        
+        .circle-4 {
+            width: 60px;
+            height: 60px;
+            top: 20%;
+            right: -30px;
+            animation-delay: 1.5s;
+        }
+        
+        .cup-icon {
+            width: 30%;
+            max-width: 150px;
+            min-width: 80px;
+            height: auto;
+            fill: #825C42;
+            margin-bottom: 0.5rem;
+            animation: bounce 2s infinite ease-in-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+    <div class="circle circle-4"></div>
+    
+    <div class="container">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 100" class="cup-icon">
+                <!-- Main circular background with dark outline -->
+                <circle cx="75" cy="50" r="40" fill="#E1D8CC" stroke="#825C42" stroke-width="3"/>
+                
+                <!-- Rupee symbol -->
+                <text x="63" y="62" font-family="Arial, sans-serif" font-weight="bold" font-size="42" fill="#825C42">₹</text>
+                
+                <!-- Smaller coin elements with dark outlines -->
+                <circle cx="110" cy="30" r="12" fill="#825C42" opacity="0.8" stroke="#825C42" stroke-width="2"/>
+                <circle cx="40" cy="70" r="12" fill="#825C42" opacity="0.8" stroke="#825C42" stroke-width="2"/>
+                
+                <!-- Subtle currency symbols in coins -->
+                <text x="106" y="34" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#E1D8CC">¢</text>
+                <text x="36" y="74" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#E1D8CC">¢</text>
+              </svg>
+            <h1 class="app-name">CapConnect</h1>
+            <p class="tagline">Connect with World class Funders and Raisers</p>
+        </div>
+        
+        <div class="buttons">
+            <a href="get-started.html" class="btn btn-primary">Get Started</a>
+            <a href="login-signup.html" class="btn btn-secondary">Login / Sign Up</a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover animation for buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseover', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
+                button.addEventListener('mouseout', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

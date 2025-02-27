@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapConnect - Explore Pitches</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f7f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Color palette */
+        :root {
+            --primary-light: #E1D8CC;
+            --primary-dark: #825C42;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --accent-light: #f0e9e0;
+            --accent-dark: #634732;
+            --border-color: #d6cfc5;
+            --progress-bg: #e9e2d8;
+            --progress-fill: #825C42;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main content */
+        .container {
+            max-width:  66vw;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        /* Pitch card styles */
+        .pitch-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .pitch-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .pitch-media {
+            width: 100%;
+            height: 300px;
+            background-color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pitch-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pitch-media .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .pitch-media .play-button svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-dark);
+        }
+
+        .pitch-content {
+            padding: 1.5rem;
+        }
+
+        .pitch-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .company-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .pitch-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .pitch-location, .pitch-domain {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #666;
+        }
+        .pitch-domain {
+            background-color: #f0c1a1;
+            border-radius: 5rem;
+            box-shadow: 0 10px 20px rgba(240, 193, 161, 0.3), 0 6px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 2.5rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .pitch-domain:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(240, 193, 161, 0.4), 0 10px 10px rgba(0, 0, 0, 0.15);
+            background-color: #f2b88a;
+        }
+        .pitch-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .funding-section {
+            background-color: var(--accent-light);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+
+        .funding-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .funding-amount {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .funding-target {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: var(--progress-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--progress-fill);
+            border-radius: 5px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .funding-percentage {
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            text-align: right;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-actions {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-dark);
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .invest-btn {
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .invest-btn:hover {
+            background-color: var(--accent-dark);
+        }
+
+        /* Filter section styles */
+        .filter-section {
+            background-color: var(--accent-light); /* Light background */
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-section h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center; /* Align items vertically */
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0; /* Remove default margin */
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+
+        .filter-group select {
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: #333;
+            background-color: white;
+            width: 100%; /* Make the select boxes take up the full width of their container */
+            max-width: 200px; /* Set a maximum width for the select boxes */
+        }
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 3px rgba(var(--primary-dark), 0.3);
+        }
+
+        .apply-filters-btn {
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .apply-filters-btn:hover {
+            background-color: var(--accent-dark);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .pitch-media {
+                height: 220px;
+            }
+
+            .pitch-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .card-actions {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .social-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .invest-btn {
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem;
+            }
+            .filter-options {
+                flex-direction: column; /* Stack filters vertically on smaller screens */
+                align-items: stretch; /* Make items take up the full width */
+            }
+
+            .filter-group {
+                width: 100%; /* Each filter group takes the full width */
+            }
+
+            .filter-group select {
+                max-width: none; /* Remove the maximum width to allow full width */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">CapConnect</div>
+            <nav class="nav-links">
+                <span id="userGreeting">Hi, </span>
+                <a href="investor-dashboard.html">Home</a>
+                <a href="explore-startup.html">Explore</a>
+                <!-- <a href="#">Dashboard</a> -->
+                <a href="start-funding.html" id="startFundingLink">Start Funding</a>
+                <a href="profile-investor.html">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <h1 class="page-title">Explore Pitches</h1>
+
+        <div class="filter-section">
+            <h3>Filter Pitches</h3>
+            <div class="filter-options">
+                <div class="filter-group">
+                    <label for="investmentAmount">Investment Amount:</label>
+                    <select id="investmentAmount" name="investmentAmount">
+                        <option value="all">All</option>
+                        <option value="low">$0 - $10,000</option>
+                        <option value="medium">$10,001 - $50,000</option>
+                        <option value="high">$50,001 - $100,000</option>
+                        <option value="veryHigh">$100,001+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="domain">Domain:</label>
+                    <select id="domain" name="domain">
+                        <option value="all">All</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="Social Media">Social Media</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Food & Beverage">Food & Beverage</option>
+                        <option value="Real Estate">Real Estate</option>
+                    </select>
+                </div>
+                <button class="apply-filters-btn">Apply Filters</button>
+            </div>
+        </div>
+
+        <div class="pitch-feed explore-pitch-feed">
+            <!-- Pitches will be displayed here -->
+        </div>
+
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+        <script>
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyDAWw-ULo8667yfh73CT7um7klrmHz28Ak",
+                authDomain: "capconnect-377b7.firebaseapp.com",
+                projectId: "capconnect-377b7",
+                storageBucket: "capconnect-377b7.firebasestorage.app",
+                messagingSenderId: "118573492915",
+                appId: "1:118573492915:web:3096948dde5d4827e7dec6",
+                measurementId: "G-S09TJS03MH"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            // Get user data and update greeting
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    firebase.firestore().collection('users').doc(user.uid).get()
+                        .then((doc) => {
+                            if (doc.exists) {
+                                const userData = doc.data();
+                                document.getElementById('userGreeting').textContent = `Hi, ${userData.name}`;
+                            } else {
+                                console.log("No such document!");
+                            }
+                        }).catch((error) => {
+                            console.log("Error getting document:", error);
+                        });
+                } else {
+                    console.log("No user is signed in.");
+                    // Redirect to login page or handle unsigned state
+                }
+            });
+
+            // Function to fetch pitches with filters
+            function fetchPitchesWithFilters(investmentAmount, domain) {
+                let pitchesRef = firebase.firestore().collection('pitches');
+                let query = pitchesRef;
+
+                if (investmentAmount !== 'all') {
+                    switch (investmentAmount) {
+                        case 'low':
+                            query = query.where('fundingNeeded', '>=', 0).where('fundingNeeded', '<=', 10000);
+                            break;
+                        case 'medium':
+                            query = query.where('fundingNeeded', '>', 10000).where('fundingNeeded', '<=', 50000);
+                            break;
+                        case 'high':
+                            query = query.where('fundingNeeded', '>', 50000).where('fundingNeeded', '<=', 100000);
+                            break;
+                        case 'veryHigh':
+                            query = query.where('fundingNeeded', '>', 100000);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                if (domain !== 'all') {
+                    query = query.where('domain', '==', domain);
+                }
+
+                query.get().then((querySnapshot) => {
+                    const pitchFeed = document.querySelector('.explore-pitch-feed');
+                    pitchFeed.innerHTML = ''; // Clear existing pitches
+                    querySnapshot.forEach((doc) => {
+                        const pitchData = doc.data();
+                        const pitchCard = createPitchCard(pitchData, doc.id);
+                        pitchFeed.appendChild(pitchCard);
+                    });
+                }).catch((error) => {
+                    console.log("Error getting pitches with filters: ", error);
+                });
+            }
+
+            // Function to create a pitch card
+            function createPitchCard(pitchData, pitchId) {
+                const card = document.createElement('div');
+                card.className = 'pitch-card';
+                const fundingPercentage = pitchData.fundingNeeded
+                    ? (pitchData.fundingRaised / pitchData.fundingNeeded) * 100
+                    : 0;
+
+                card.innerHTML = `
+                    <div class="pitch-media">
+                        <img src="${pitchData.imageUrl || '/api/placeholder/1000/600'}" alt="${pitchData.startupName} Pitch">
+                    </div>
+                    <div class="pitch-content">
+                        <div class="pitch-header">
+                            <h2 class="company-name">${pitchData.startupName}</h2>
+                        </div>
+                        <div class="pitch-meta">
+                            <div class="pitch-location">${pitchData.problemStatement}</div>
+                            <div class="pitch-domain">${pitchData.domain}</div>
+                        </div>
+                        <p class="pitch-description">${pitchData.solution}</p>
+                        <div class="funding-section">
+                            <div class="funding-header">
+                                <div class="funding-amount">$${pitchData.fundingRaised.toLocaleString()} raised</div>
+                                <div class="funding-target">of $${pitchData.fundingNeeded.toLocaleString()} goal</div>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: ${fundingPercentage.toFixed(2)}%"></div>
+                            </div>
+                            <div class="funding-percentage">${fundingPercentage.toFixed(2)}% funded</div>
+                        </div>
+                        <div class="card-actions">
+                            <div class="social-actions">
+                                <button class="action-btn like-btn" data-pitch-id="${pitchId}">
+                                    <span class="heart-icon">♡</span>
+                                    <span class="like-count">${pitchData.likes || 0}</span>
+                                </button>
+                                <button class="action-btn">Comment</button>
+                                <button class="action-btn">Save</button>
+                            </div>
+                            <button class="invest-btn">Learn More & Invest</button>
+                        </div>
+                    </div>
+                `;
+
+                const likeBtn = card.querySelector('.like-btn');
+                const heartIcon = likeBtn.querySelector('.heart-icon');
+                const likeCount = likeBtn.querySelector('.like-count');
+
+                // Check if the user has already liked the pitch
+                const userId = firebase.auth().currentUser.uid;
+                const likedPitches = JSON.parse(localStorage.getItem('likedPitches') || '{}');
+                const isLiked = likedPitches[pitchId];
+
+                if (isLiked) {
+                    heartIcon.textContent = '♥';
+                    likeBtn.classList.add('liked');
+                }
+
+                likeBtn.addEventListener('click', function() {
+                    const docRef = firebase.firestore().collection('pitches').doc(pitchId);
+
+                    docRef.get().then((doc) => {
+                        if (doc.exists) {
+                            const pitchData = doc.data();
+                            const currentLikes = pitchData.likes || 0;
+                            const likedBy = pitchData.likedBy || [];
+                            const userIndex = likedBy.indexOf(userId);
+
+                            let newLikes = currentLikes;
+                            let newLikedBy = [...likedBy];
+
+                            if (userIndex === -1) {
+                                // User hasn't liked the pitch yet
+                                newLikes++;
+                                newLikedBy.push(userId);
+                                heartIcon.textContent = '♥';
+                                likeBtn.classList.add('liked');
+                                likedPitches[pitchId] = true;
+                            } else {
+                                // User has already liked the pitch, so unlike it
+                                newLikes--;
+                                newLikedBy.splice(userIndex, 1);
+                                heartIcon.textContent = '♡';
+                                likeBtn.classList.remove('liked');
+                                delete likedPitches[pitchId];
+                            }
+
+                            docRef.update({
+                                likes: newLikes,
+                                likedBy: newLikedBy
+                            }).then(() => {
+                                likeCount.textContent = newLikes;
+                                localStorage.setItem('likedPitches', JSON.stringify(likedPitches));
+                            }).catch((error) => {
+                                console.error("Error updating likes: ", error);
+                            });
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting pitch document:", error);
+                    });
+                });
+
+                return card;
+            }
+
+            // Event listener for applying filters
+            document.querySelector('.apply-filters-btn').addEventListener('click', function() {
+                const investmentAmount = document.getElementById('investmentAmount').value;
+                const domain = document.getElementById('domain').value;
+                fetchPitchesWithFilters(investmentAmount, domain);
+            });
+
+            // Initial fetch of pitches
+            fetchPitchesWithFilters('all', 'all');
+
+        </script>
+    </main>
+</body>
+</html>

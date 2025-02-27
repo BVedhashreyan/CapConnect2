@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Profile - CapConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f7f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        :root {
+            --primary-light: #E1D8CC;
+            --primary-dark: #825C42;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --accent-light: #f0e9e0;
+            --accent-dark: #634732;
+            --border-color: #d6cfc5;
+        }
+        
+        .header {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 20px;
+}
+
+.profile-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.profile-card:hover {
+    transform: scale(1.02);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 3px solid var(--primary-dark);
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-dark);
+}
+
+.profile-info {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+.profile-info strong {
+    font-weight: bold;
+    margin-right: 10px;
+    color: var(--primary-dark);
+}
+
+.edit-button {
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.edit-button:hover {
+    background-color: var(--accent-dark);
+    transform: translateY(-2px);
+}
+
+.social-links {
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: var(--primary-dark);
+    font-size: 24px;
+    margin-right: 15px;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.social-links a:hover {
+    color: var(--accent-dark);
+    transform: scale(1.1);
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">CapConnect</div>
+            <nav class="nav-links">
+                <span id="userGreeting">Hi, </span>
+                <a href="investor-dashboard.html">Home</a>
+                <a href="explore-startup.html">Explore</a>
+                <a href="start-funding.html">Start Funding</a>
+                <a href="investor-profile.html">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <img id="profilePicture" class="profile-picture" src="photos/profile.png" alt="Profile Picture">
+                <h1 id="profileName" class="profile-name">Loading...</h1>
+            </div>
+            <div id="profileInfo"></div>
+            <div class="social-links">
+                <a href="#" id="linkedinLink" target="_blank"><i class="fa fa-linkedin"></i></a>
+                <a href="#" id="twitterLink" target="_blank"><i class="fa fa-twitter"></i></a>
+            </div>
+            <button class="edit-button" onclick="editProfile()">Edit Profile</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase (use your Firebase config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDAWw-ULo8667yfh73CT7um7klrmHz28Ak",
+            authDomain: "capconnect-377b7.firebaseapp.com",
+            projectId: "capconnect-377b7",
+            storageBucket: "capconnect-377b7.appspot.com", 
+            messagingSenderId: "118573492915",
+            appId: "1:118573492915:web:3096948dde5d4827e7dec6",
+            measurementId: "G-S09TJS03MH"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        function fetchUserProfile() {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    db.collection('investors').doc(user.uid).get()
+                        .then(doc => {
+                            if (doc.exists) {
+                                const data = doc.data();
+                                document.getElementById('profileName').textContent = data.fullName;
+                                document.getElementById('profilePicture').src = data.profilePicture || 'photos/profile.png';
+                                
+                                const profileInfo = document.getElementById('profileInfo');
+                                profileInfo.innerHTML = `
+                                    <p class="profile-info"><strong>Investment Capacity:</strong> $${data.investmentCapacity.toLocaleString()}</p>
+                                    <p class="profile-info"><strong>Investment Preferences:</strong> ${data.investmentPreferences.join(', ')}</p>
+                                    <p class="profile-info"><strong>Investment Experience:</strong> ${data.investmentExperience} years</p>
+                                    <p class="profile-info"><strong>Bio:</strong> ${data.bio}</p>
+                                `;
+
+                                document.getElementById('linkedinLink').href = data.linkedinProfile;
+                                // document.getElementById('twitterLink').href = data.twitterProfile || '#';
+                            } else {
+                                console.log("No such document!");
+                            }
+                        }).catch(error => {
+                            console.log("Error getting document:", error);
+                        });
+                } else {
+                    console.log("No user is signed in.");
+                }
+            });
+        }
+
+        function editProfile() {
+            // Redirect to edit profile page
+            window.location.href = 'start-funding.html';
+        }
+
+        // Fetch user profile on page load
+        fetchUserProfile();
+    </script>
+</body>
+</html>

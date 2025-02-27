@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapConnect - Analytics</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #E1D8CC;
+    color: #333;
+    line-height: 1.6;
+}
+
+.header {
+    background-color: #825C42;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-icon {
+    width: 60px;
+    height: 40px;
+    fill: #E1D8CC;
+    margin-right: 10px;
+}
+
+.logo-text {
+    color: #E1D8CC;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-right: 1.5rem;
+}
+
+.nav-links a {
+    color: #E1D8CC;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #E1D8CC;
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.auth-buttons {
+    display: flex;
+}
+
+.auth-button {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+}
+
+.login-btn {
+    color: #825C42;
+    background-color: #E1D8CC;
+}
+
+.login-btn:hover {
+    background-color: #d5cbc0;
+    transform: translateY(-2px);
+}
+
+.signup-btn {
+    color: #E1D8CC;
+    border: 2px solid #E1D8CC;
+    background-color: transparent;
+}
+
+.signup-btn:hover {
+    background-color: rgba(225, 216, 204, 0.1);
+    transform: translateY(-2px);
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+}
+
+.main-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.app-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #825C42;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.tagline {
+    font-size: 1rem;
+    color: #825C42;
+    opacity: 0.9;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.analytics-card {
+    background-color: #F5F0E8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.analytics-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(130, 92, 66, 0.2);
+}
+
+.analytics-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #825C42;
+    margin-bottom: 0.5rem;
+}
+
+.analytics-label {
+    font-size: 0.9rem;
+    color: #825C42;
+    opacity: 0.8;
+}
+
+.chart-container {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #825C42;
+    color: #E1D8CC;
+    box-shadow: 0 4px 8px rgba(130, 92, 66, 0.3);
+}
+
+.btn:hover {
+    background-color: #6B4A35;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(130, 92, 66, 0.4);
+}
+
+.back-link {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 150 100" width="40" height="30">
+                <circle cx="75" cy="50" r="40" fill="#E1D8CC" stroke="#825C42" stroke-width="3"/>
+                <text x="63" y="62" font-family="Arial, sans-serif" font-weight="bold" font-size="42" fill="#825C42">₹</text>
+                <circle cx="110" cy="30" r="12" fill="#825C42" opacity="0.8" stroke="#825C42" stroke-width="2"/>
+                <circle cx="40" cy="70" r="12" fill="#825C42" opacity="0.8" stroke="#825C42" stroke-width="2"/>
+                <text x="106" y="34" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#E1D8CC">¢</text>
+                <text x="36" y="74" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#E1D8CC">¢</text>
+            </svg>
+            
+            <span class="logo-text">CapConnect</span>
+        </div>
+        
+        <nav class="nav">
+            <ul class="nav-links">
+                <li><a href="get-started.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="topstartups.html">Startups</a></li>
+                <li><a href="topinvestors.html">Investors</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                <a href="login.html" class="auth-button login-btn">Login</a>
+                <a href="signup.html" class="auth-button signup-btn">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="analytics-grid">
+            <div class="analytics-card">
+                <div class="analytics-value">152</div>
+                <div class="analytics-label">Total Pitches</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-value">$2.5M</div>
+                <div class="analytics-label">Total Funding</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-value">45</div>
+                <div class="analytics-label">Successful Matches</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-value">78%</div>
+                <div class="analytics-label">Pitch Success Rate</div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="fundingChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="pitchesChart"></canvas>
+        </div>
+        
+        <div class="back-link">
+            <a href="get-started.html" class="btn">Back to Dashboard</a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Funding by Category Chart
+            var fundingCtx = document.getElementById('fundingChart').getContext('2d');
+            var fundingChart = new Chart(fundingCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tech', 'Healthcare', 'Finance', 'Education', 'E-commerce'],
+                    datasets: [{
+                        label: 'Funding by Category (in $M)',
+                        data: [1.2, 0.8, 0.3, 0.1, 0.1],
+                        backgroundColor: [
+                            'rgba(130, 92, 66, 0.8)',
+                            'rgba(130, 92, 66, 0.6)',
+                            'rgba(130, 92, 66, 0.4)',
+                            'rgba(130, 92, 66, 0.3)',
+                            'rgba(130, 92, 66, 0.2)'
+                        ],
+                        borderColor: 'rgba(130, 92, 66, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Pitches Over Time Chart
+            var pitchesCtx = document.getElementById('pitchesChart').getContext('2d');
+            var pitchesChart = new Chart(pitchesCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Number of Pitches',
+                        data: [20, 35, 45, 60, 80, 152],
+                        fill: false,
+                        borderColor: 'rgba(130, 92, 66, 1)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

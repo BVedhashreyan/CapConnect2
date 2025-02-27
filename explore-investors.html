@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapConnect - Explore Investors</title>
+    <style>
+        /* Reset and base styles (same as investor feed) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f7f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Color palette (same as investor feed) */
+        :root {
+            --primary-light: #E1D8CC;
+            --primary-dark: #825C42;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --accent-light: #f0e9e0;
+            --accent-dark: #634732;
+            --border-color: #d6cfc5;
+        }
+
+        /* Header styles (same as investor feed) */
+        .header {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 66vw;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        /* Investor card styles (same as investor feed) */
+        .investor-feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background-color: #E1D8CC;
+        }
+
+        .investor-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(130, 92, 66, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .investor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(130, 92, 66, 0.15);
+        }
+
+        .investor-content {
+            padding: 1.5rem;
+        }
+
+        .investor-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .investor-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #E1D8CC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .investor-photo svg {
+            width: 30px;
+            height: 30px;
+            color: #825C42;
+        }
+
+        .investor-info {
+            flex-grow: 1;
+        }
+
+        .investor-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0;
+            color: #825C42;
+        }
+
+        .linkedin-link {
+            display: inline-block;
+            margin-top: 0.25rem;
+        }
+
+        .linkedin-link svg {
+            width: 18px;
+            height: 18px;
+            color: #825C42;
+            transition: color 0.3s ease;
+        }
+
+        .linkedin-link:hover svg {
+            color: #0077B5;
+        }
+
+        .investment-range {
+            font-weight: bold;
+            color: #825C42;
+            font-size: 0.9rem;
+        }
+
+        .investor-description {
+            margin-bottom: 1rem;
+            color: #5a5a5a;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #825C42;
+        }
+
+        .investment-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .field-tag {
+            background-color: #E1D8CC;
+            color: #825C42;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .field-tag:hover {
+            background-color: #825C42;
+            color: #E1D8CC;
+        }
+
+        .investment-experience-section {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .card-footer {
+            background-color: #E1D8CC;
+            padding: 1rem;
+        }
+
+        .send-pitch-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: #825C42;
+            color: #E1D8CC;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .send-pitch-btn:hover {
+            background-color: #6a4a35;
+            transform: translateY(-2px);
+        }
+
+        .send-pitch-btn svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.5rem;
+        }
+
+        /* Filter section styles (reuse styles from previous "Explore" screen) */
+        .filter-section {
+            background-color: var(--accent-light); /* Light background */
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-section h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center; /* Align items vertically */
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0; /* Remove default margin */
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+
+        .filter-group select {
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: #333;
+            background-color: white;
+            width: 100%; /* Make the select boxes take up the full width of their container */
+            max-width: 200px; /* Set a maximum width for the select boxes */
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 3px rgba(var(--primary-dark), 0.3);
+        }
+
+        .apply-filters-btn {
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .apply-filters-btn:hover {
+            background-color: var(--accent-dark);
+        }
+
+        /* Responsive styles (reuse media queries from previous "Explore" screen and investor feed) */
+        @media (max-width: 768px) {
+            .investor-content {
+                flex-direction: column;
+            }
+
+            .investor-photo {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                align-self: center;
+            }
+
+            .investor-header {
+                flex-direction: column;
+            }
+
+            .investment-range {
+                align-self: flex-start;
+                margin-top: 0.5rem;
+            }
+             .filter-options {
+                flex-direction: column; /* Stack filters vertically on smaller screens */
+                align-items: stretch; /* Make items take up the full width */
+            }
+
+            .filter-group {
+                width: 100%; /* Each filter group takes the full width */
+            }
+
+            .filter-group select {
+                max-width: none; /* Remove the maximum width to allow full width */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">CapConnect</div>
+            <nav class="nav-links">
+                <span id="userGreeting">Hi, </span>
+                <a href="startup-dashboard.html">Home</a>
+                <a href="explore-investors.html">Explore Investors</a>
+                <a href="mypitches.html">Pitch</a>
+                <a href="profile-startup.html">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <h1 class="page-title">Find Investors</h1>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h3>Filter Investors</h3>
+            <div class="filter-options">
+                <div class="filter-group">
+                    <label for="domain">Domain:</label>
+                    <select id="domain" name="domain">
+                        <option value="all">All</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="Social Media">Social Media</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Food & Beverage">Food & Beverage</option>
+                        <option value="Real Estate">Real Estate</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="investmentAmount">Investment Amount:</label>
+                    <select id="investmentAmount" name="investmentAmount">
+                        <option value="all">All</option>
+                        <option value="low">$0 - $10,000</option>
+                        <option value="medium">$10,001 - $50,000</option>
+                        <option value="high">$50,001 - $100,000</option>
+                        <option value="veryHigh">$100,001+</option>
+                    </select>
+                </div>
+                <button class="apply-filters-btn">Apply Filters</button>
+            </div>
+        </div>
+
+        <!-- Investor Feed -->
+        <div class="investor-feed">
+            <!-- Investor cards will be dynamically added here -->
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+        // Firebase configuration (Replace with your actual config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDAWw-ULo8667yfh73CT7um7klrmHz28Ak",
+            authDomain: "capconnect-377b7.firebaseapp.com",
+            projectId: "capconnect-377b7",
+            storageBucket: "capconnect-377b7.firebasestorage.app",
+            messagingSenderId: "118573492915",
+            appId: "1:118573492915:web:3096948dde5d4827e7dec6",
+            measurementId: "G-S09TJS03MH"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Get user data and update greeting
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                firebase.firestore().collection('users').doc(user.uid).get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            document.getElementById('userGreeting').textContent = `Hi, ${userData.name}`;
+                        } else {
+                            console.log("No such document!");
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    });
+            } else {
+                console.log("No user is signed in.");
+                // Redirect to login page or handle unsigned state
+            }
+        });
+
+        // Function to create an investor card
+        function createInvestorCard(investor) {
+            return `
+            <div class="investor-card">
+                <div class="investor-content">
+                    <div class="investor-header">
+                        <div class="investor-photo">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                            </svg>
+                        </div>
+                        <div class="investor-info">
+                            <h2 class="investor-name">${investor.fullName}</h2>
+                            <a href="${investor.linkedinProfile}" target="_blank" class="linkedin-link" title="View LinkedIn Profile">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <span class="investment-range">$${investor.investmentCapacity.toLocaleString()}</span>
+                    </div>
+
+                    <p class="investor-description">${investor.bio}</p>
+
+                    <div class="investment-fields-section">
+                        <h3 class="section-title">Investment Fields</h3>
+                        <div class="investment-fields">
+                            ${investor.investmentPreferences.map(pref => `<span class="field-tag">${pref}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="investment-experience-section">
+                        <h3 class="section-title">Investment Experience</h3>
+                        <p>${investor.investmentExperience} years</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="send-pitch-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Send Pitch
+                    </button>
+                </div>
+            </div>
+            `;
+        }
+
+        // Function to fetch and display investors based on filters
+        function fetchAndDisplayInvestors(domainFilter, investmentAmountFilter) {
+            const investorFeed = document.querySelector('.investor-feed');
+            investorFeed.innerHTML = ''; // Clear existing content
+
+            let investorsRef = firebase.firestore().collection('investors');
+            let query = investorsRef;
+
+            if (domainFilter !== 'all') {
+                query = query.where('investmentPreferences', 'array-contains', domainFilter); // Use array-contains to filter based on investment preferences
+            }
+
+            if (investmentAmountFilter !== 'all') {
+                switch (investmentAmountFilter) {
+                    case 'low':
+                        query = query.where('investmentCapacity', '>=', 0).where('investmentCapacity', '<=', 10000);
+                        break;
+                    case 'medium':
+                        query = query.where('investmentCapacity', '>', 10000).where('investmentCapacity', '<=', 50000);
+                        break;
+                    case 'high':
+                        query = query.where('investmentCapacity', '>', 50000).where('investmentCapacity', '<=', 100000);
+                        break;
+                    case 'veryHigh':
+                        query = query.where('investmentCapacity', '>', 100000);
+                        break;
+                }
+            }
+            query.get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        const investor = doc.data();
+                        const investorCard = createInvestorCard(investor);
+                        investorFeed.innerHTML += investorCard;
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error fetching investors: ", error);
+                });
+        }
+
+        // Event listener for applying filters
+        document.querySelector('.apply-filters-btn').addEventListener('click', function() {
+            const domain = document.getElementById('domain').value;
+            const investmentAmount = document.getElementById('investmentAmount').value;
+            fetchAndDisplayInvestors(domain, investmentAmount);
+        });
+
+        // Initial fetch of investors (no filters)
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchAndDisplayInvestors('all', 'all');
+        });
+    </script>
+</body>
+</html>
